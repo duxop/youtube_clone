@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { videosApiUrl } from "../utils/constants";
 import VideoCards from "./VideoCards";
+import Shimmer from "./Shimmer";
 
 function Main() {
   const [videoList, setVideoList] = useState([]);
-  console.log("child");
+  const n = 25;
   const videoListAPI = async () => {
     const data = await fetch(videosApiUrl);
     const json = await data.json();
@@ -17,12 +18,13 @@ function Main() {
   }, []);
 
   const cardList = videoList.map((card) => {
-    return <VideoCards key = {card.id} data={card} />;
+    return <VideoCards key={card.id}  data={card} />;
   })
 
-  return <div className="bg-purple-100 col-span-11 flex flex-wrap">
-    {cardList}
-  </div>;
+  return (<div className="col-span-11 flex flex-wrap">
+    {videoList.length === 0 ? [...Array(n)].map((e, i) => <Shimmer/>) : cardList}
+    
+  </div>);
 }
 
 export default Main;

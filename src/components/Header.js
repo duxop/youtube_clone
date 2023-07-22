@@ -8,7 +8,7 @@ export default function Header() {
     dispatch(toggleSidebar());
   };
   return (
-    <div className="flex justify-between p-2 items-center bg-green-200">
+    <div className="flex justify-between p-2 items-center shadow-lg">
       <div className="flex">
         <button className="cursor-pointer p-2" onClick={() => toggleBar()}>
           Sidebar
@@ -17,7 +17,7 @@ export default function Header() {
           className="cursor-pointer w-28 p-2"
           alt="logo"
           src="https://w7.pngwing.com/pngs/674/324/png-transparent-youtube-logo-music-video-computer-icons-youtube-logo-text-trademark-logo.png"
-        ></img>
+        />
       </div>
       <Search />
       <div>

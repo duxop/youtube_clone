@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function VideoCards({ data }) {
   const { title, channelTitle, thumbnails } = data?.snippet;
@@ -15,11 +16,13 @@ function VideoCards({ data }) {
   }
 //   console.log(data);
   return (
-    <div className="shivam w-[19rem] m-4 cursor-pointer">
-      <img alt="thumbnail" className="rounded-md" src={url}></img>
-      <div className="font-bold">{title}</div>
-      <div>{channelTitle}</div>
-      <h1>{viewCount + unit}</h1>
+    <div className="w-[18rem] h-[283px] m-4 cursor-pointer overflow-hidden hover:bg-gray-200 rounded-md">
+      <Link to={"/watch?v=" + data.id}>
+        <img alt="thumbnail" src={url}></img>
+        <div className="font-bold px-2">{title}</div>
+        <div className="px-2">{channelTitle}</div>
+        <h1 className="px-2">{viewCount + unit}</h1>
+      </Link>
     </div>
   );
 }
