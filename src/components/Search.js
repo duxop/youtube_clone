@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { searchSuggestionURL, videoSearchURL } from "../utils/constants";
+import { searchSuggestionURL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { cacheSuggestions } from "../utils/searchCacheSlice";
-import { setVideoList } from "../utils/videoListSlice";
-import { closeSidebar } from "../utils/sidebarSlice";
+import { useNavigate } from "react-router-dom";
 
 function Search() {
   const [searchInput, setSearchInput] = useState("");
@@ -11,7 +10,7 @@ function Search() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const cache = useSelector((store) => store.seachCache.cache);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const cacheSearch = (obj) => {
     dispatch(cacheSuggestions(obj));
   };
@@ -49,16 +48,8 @@ function Search() {
   const loadSearchResults = async (event, search) => {
     event.preventDefault();
     setShowSuggestions(false);
+    navigate("/search?s=" + searchInput);
     setSearchInput("");
-    console.log(searchInput);
-    const toggleBar = () => {
-      dispatch(closeSidebar());
-    };
-    toggleBar();
-    const data = await fetch(videoSearchURL + search);
-    const json = await data.json();
-    console.log(json);
-    dispatch(setVideoList(json.items));
   };
 
   const searchList = searchSuggestions.map((item, i) => (
@@ -75,23 +66,26 @@ function Search() {
   ));
   return (
     <div>
-      <form onSubmit={(e) => loadSearchResults(e, searchInput)}>
+      <form
+        onSubmit={(e) => loadSearchResults(e, searchInput)}
+        onFocus={() => setShowSuggestions(true)}
+        onBlur={() => setShowSuggestions(false)}
+      >
         <input
           placeholder="Search"
           className=" border-2 border-blue-600 rounded-l-xl w-[25rem] pl-4"
           value={searchInput}
           onChange={(e) => searchChange(e)}
-          onFocus={() => setShowSuggestions(true)}
         />
         <button className="bg-blue-600 border-2 border-blue-600 rounded-r-xl w-10">
           🔍
         </button>
+        {showSuggestions ? (
+          <ul className="mt-1 w-[25rem] [&>li]:pl-1 fixed bg-gray-400 rounded-lg overflow-hidden">
+            {searchList}
+          </ul>
+        ) : null}
       </form>
-      {showSuggestions ? (
-        <ul className="mt-1 w-[25rem] [&>li]:pl-1 fixed bg-gray-400 rounded-lg overflow-hidden">
-          {searchList}
-        </ul>
-      ) : null}
     </div>
   );
 }
