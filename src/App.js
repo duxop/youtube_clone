@@ -1,10 +1,10 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createHashRouter } from "react-router-dom";
 import Body from "./components/Body";
 import Main from "./components/Main";
 import WatchPage from "./components/WatchPage";
 import SearchResultPage from "./components/SearchResultPage";
 
-const appRouter = createBrowserRouter([
+const appRouter = createHashRouter([
   {
     path: "/",
     element: <Body />,
@@ -27,8 +27,8 @@ const appRouter = createBrowserRouter([
 
 export default function App() {
   return (
-      <div>
-        <RouterProvider router={appRouter} />
-      </div>
+    <div>
+      <RouterProvider router={appRouter} />
+    </div>
   );
 }
